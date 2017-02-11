@@ -21,3 +21,4 @@ executable spock
                      , Spock >= 0.11
                      , mtl
                      , text
+                     , random
