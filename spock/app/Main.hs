@@ -29,6 +29,7 @@ app =
               let passphrase = base64string 10 stdGen
               -- and we are going to manually update the generator
               newGen <- liftIO newStdGen
+              liftIO $ putStrLn $ "Hi there " ++ show (passphrase) ++ " with generator " ++ show (newGen)
               _ <- liftIO $ atomicModifyIORef' ref $ \(i, g) -> ((i, newGen), g)
               -- display
               text $ "Hello World!\nYour random word is " <> passphrase
