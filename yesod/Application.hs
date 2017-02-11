@@ -10,5 +10,6 @@ import Yesod.Core
 
 import Add
 import Home
+import RandomNumber
 
 mkYesodDispatch "App" resourcesApp

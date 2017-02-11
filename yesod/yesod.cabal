@@ -16,5 +16,8 @@ executable          yesod
 
   build-depends:  base
                 , yesod-core
+                , crypto-api
+                , monadcryptorandom
+                , random
 
   ghc-options:    -threaded -O2 -rtsopts -with-rtsopts=-N
