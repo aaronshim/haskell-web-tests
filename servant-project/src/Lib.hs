@@ -12,6 +12,9 @@ import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
 
+import Control.Monad.IO.Class
+import qualified System.Random as R
+
 data User = User
   { userId        :: Int
   , userFirstName :: String
@@ -49,7 +52,9 @@ usersServer = return users
 -- type synonyms?
 --rootServer :: Server RootAPI
 rootServer :: Handler String
-rootServer = return "Hello, world!"
+rootServer = do
+  r <- liftIO $ R.randomRIO (0, 100)
+  return $ "Hello, world! " ++ (show (r :: Integer))
 
 users :: [User]
 users = [ User 1 "Isaac" "Newton"
