@@ -40,6 +40,8 @@ app = serve api server
 api :: Proxy API
 api = Proxy
 
+-- think of the API as the type signature of the web framework's fnunctions
+-- Server is the implementation of the API (which is the metaphor for the type signature)
 -- can combine servers with the same combinator as type-level API's BUT only in that exact order!
 server :: Server API
 server = usersServer :<|> rootServer
