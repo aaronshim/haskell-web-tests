@@ -11,6 +11,7 @@ import Data.Aeson.TH
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
+import Servant.Utils.StaticFiles
 
 import Control.Monad.IO.Class
 import qualified System.Random as R
@@ -25,7 +26,7 @@ $(deriveJSON defaultOptions ''User)
 
 -- we can define APIs and then combine them with the special :<|> operator
 type UsersAPI = "users" :> Get '[JSON] [User]
-type RootAPI = Get '[PlainText] String
+type RootAPI = Raw --Get '[PlainText] String
 type API = UsersAPI :<|> RootAPI
 
 -- Main IO action
@@ -51,10 +52,19 @@ server = usersServer :<|> rootServer
 usersServer :: Handler [User]
 usersServer = return users
 
+-- NEW ROOT SERVER (test out static assets serving)
+--
+-- The tutorial seems to have "serveDirectoryWebApp",
+--  which doesn't have index.html as the main entry point
+--  default behavior... Is this covered in the documentation somewhere?
+rootServer :: Server Raw
+rootServer = serveDirectoryFileServer "assets"
+
+-- OLD ROOT SERVER
 -- type synonyms?
 --rootServer :: Server RootAPI
-rootServer :: Handler String
-rootServer = do
+rootServer' :: Handler String
+rootServer' = do
   r <- liftIO $ R.randomRIO (0, 100)
   return $ "Hello, world! " ++ (show (r :: Integer))
 
